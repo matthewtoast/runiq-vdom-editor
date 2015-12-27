@@ -1,0 +1,85 @@
+.runiq-editor-wrapper {
+    box-sizing: border-box;
+}
+.runiq-editor-wrapper *,
+.runiq-editor-wrapper *:before,
+.runiq-editor-wrapper *:after {
+    box-sizing: inherit;
+}
+
+.runiq-editor-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+.runiq-editor {
+
+}
+.runiq-panels-area {
+
+}
+.runiq-display-area {
+    border-bottom: 1px solid black;
+}
+.runiq-code-panel {
+    border-right: 1px solid #333;
+}
+.runiq-code-mount {
+
+}
+.cm-s-base16-dark.CodeMirror {
+    height: 100%;
+}
+.runiq-view-panel {
+
+}
+.runiq-demo-panel {
+
+}
+.runiq-demo-mount {
+
+}
+.runiq-data-area {
+    background-color: #333;
+    border-top: 1px solid #444;
+}
+.runiq-ast-panel {
+    padding: 10px;
+    border-left: 1px solid #222;
+    border-right: 1px solid #444;
+}
+.runiq-ast-mount {
+    color: #989;
+}
+.runiq-console-panel {
+    padding: 10px;
+    border-right: 1px solid #444;
+}
+.runiq-console-mount {
+    color: #777;
+}
+.runiq-state-panel {
+    padding: 10px;
+    border-left: 1px solid #222;
+}
+.runiq-state-mount {
+    color: #998;
+}
+.runiq-overlay {
+
+}
+.runiq-overlay-content {
+
+}
+.runiq-overlay-mount {
+
+}
+.console {
+    white-space: pre;
+    font-family: Inconsolata, "Source Code Pro", Consolas, monospace;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+}

@@ -1,0 +1,32 @@
+{
+  "name": "runiq-vdom-editor",
+  "version": "0.0.0",
+  "description": "In-browser code editor for Runiq",
+  "main": "src/index.js",
+  "author": "Matthew Trost <matthew@trost.co>",
+  "scripts": {
+    "start": "npm run watch-index & npm run watch-worker & serve -p 5000 demo",
+    "watch-index": "webpack --watch --config webpack.config.index.js",
+    "watch-worker": "webpack --watch --config webpack.config.worker.js",
+    "build-index": "webpack --config webpack.config.index.js && uglifyjs --compress --mangle -- demo/index.bundle.js > dist/index.bundle.js",
+    "build-worker": "webpack --config webpack.config.worker.js && uglifyjs --compress --mangle -- demo/runiq-vdom-editor-worker.bundle.js > dist/runiq-vdom-editor-worker.bundle.js",
+    "build-html": "cp demo/index.html dist/",
+    "build": "npm run build-index && npm run build-worker && npm run build-html"
+  },
+  "dependencies": {
+    "codemirror": "^5.8.0",
+    "lodash.assign": "^3.2.0",
+    "runiq-vdom": "0.0.5"
+  },
+  "browser": {
+    "fs": false
+  },
+  "devDependencies": {
+    "css-loader": "^0.18.0",
+    "json-loader": "^0.5.4",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1"
+  }
+}

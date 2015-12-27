@@ -1,0 +1,33 @@
+.CodeMirror-code {
+    font-family: Inconsolata, "Source Code Pro", Consolas, monospace;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 16px;
+}
+.cm-runiq-list-open,
+.cm-runiq-list-close {
+    color: #999;
+}
+.cm-runiq-keyword {
+    color: #29d;
+    font-weight: bold;
+}
+.cm-list_literal {
+    color: #75d;
+}
+.cm-json_literal {
+    color: #e62;
+}
+.cm-number_with_suffix {
+    color: #90a959;
+}
+/* TODO remove these theme prefixes */
+.cm-s-base16-dark span.cm-comment {
+    color: #736556;
+}
+.cm-s-base16-dark span.cm-string {
+    color: #d3ca9f;
+}
+.cm-s-base16-dark span.cm-number {
+    color: #da557f;
+}

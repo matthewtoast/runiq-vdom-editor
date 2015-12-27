@@ -1,0 +1,131 @@
+; Copyright (c) 2015-2016 Matthew Trost ;
+
+;
+Greetings! This is just a quick intro to Runiq.
+
+Make changes to the code on the left and you should
+see changes rendered on the right. This demo is intended
+only as a quick sampler to give the general idea. For
+more detail about Runiq, please check out the repo:
+https://github.com/matthewtoast/runiq
+
+The snippet below uses the core Runiq library plus
+'runiq-vdom', a NPM package that provides the 'vdom'
+render function and set of ':'-prefixed HTML tag
+functions. A lot of what you see here will have to do
+with runiq-vdom since it shows practical usage.
+
+(Runiq isn't a DOM-centric language, but it does lend
+itself naturally to expressing trees. This code happens
+to be executed in a web worker and its output is passed
+in a message to a renderer in the UI thread.)
+;
+
+(component TodoList title _color '($
+
+  ;
+  The 'component' function comes with the Runiq package.
+  It's a preprocessor, so it runs before all subsequent
+  code at the same level. Calling it defines a component
+  that may be instantiated by name. 'component' is the only
+  stateful function provided with Runiq by default. It has
+  the form (component name …params body …defaults).
+
+  The '$' function above is a shorthand for 'series', which
+  executes its arguments in series. By default, Runiq
+  runs all functions in parallel. 'series' is provided
+  as an opt-out when same-level processing order matters,
+  such as when an event should be handled prior to the
+  rest executing. It has the form ($ …lists).
+
+  'on', 'do', 'get', and 'set' below are special functions
+  established by the 'component' preprocessor. They don't
+  have meaning by themselves, but are actually transformed
+  by the preprocessor into lambdas that receive references
+  to underlying stateful objects. (See the "Instance State"
+  panel at bottom-right to view them.)
+  ;
+
+  '(on update payload '(set text (hash.get payload target.value)))
+  '(on add payload '(set items (list.push (get items) (get text))))
+
+  '(list
+    (:div
+      (:h3 title)
+
+      ;
+      The '#' function is a shorthand for 'hash', which
+      creates a basic hashmap from its arguments. It assumes
+      an even number of arguments: key value key value ...
+      ;
+
+      (:input (# onkeyup (do update)))
+      (:button "Add Item" (# onclick (do add)))
+      (:ul (list.map (get items) (lambda item '(
+        (:li item)
+      )))))
+
+    ;
+    The 'runiq-vdom' package provides a 'style' function that
+    returns a hash object that the UI renderer knows how to
+    apply to the component. You can put it anywhere within a
+    runiq-vdom component, but it will only apply to elements
+    at its level and below (which can be convenient if you need
+    even finer control over scoping).
+    ;
+
+    (style
+      '(div
+        background-color _color
+        border-radius 4 ; runiq-vdom converts to "4px" ;
+        color white
+        font-family "Helvetica, Arial, sans-serif"
+        margin 10
+        padding 10)
+      '(button
+        background-color "white"
+        border none
+        border-radius 4
+        color _color
+        outline none)
+      '(input
+        color #666
+        margin-bottom 10
+        margin-right 10
+        outline none
+        max-width 100%)))
+
+  ;
+  The component definition's final arguments are set as
+  the initial state for each component instance of the
+  designated type. The square-bracket syntax [] is sugar
+  for '(), i.e., a quoted list.
+  ;
+
+) items [] text "")
+
+;
+In a list of lists (like this program), Runiq returns the
+last list. In this case, our program's final list calls
+`vdom`, which returns an HTML-like object. (The output of
+this program gets passed to a JavaScript VDOM renderer.)
+;
+
+(vdom (list
+  (:h1 "Hello Runiq" (# style "color: white; margin: 10px; font-family: sans-serif;"))
+
+  ;
+  Instantiate a 'TodoList' with the unique component key
+  "main" plus an argument for the instance's 'title' and
+  'color'. The key is used under the hood to match instances
+  across multiple runs of the same code. Note: This kind of
+  stateful behavior is only provided via the 'component'
+  function - other built-in Runiq functions are pure.
+  ;
+
+  (TodoList "main" "First Todos" "#AA80ED")
+
+  ; Etc. ;
+
+  (TodoList "other" "Second Todos" "#7259BA")
+))
